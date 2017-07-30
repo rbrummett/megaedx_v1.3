@@ -1,0 +1,610 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MEGAEDX             ICON                    "MegaED X.ico"
+IDI_SMALL               ICON                    "small.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDC_MEGAEDX MENUEX
+BEGIN
+    POPUP "&File",                          65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "&Open",                       ID_FILE_OPEN,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Save",                       ID_FILE_SAVE,MFT_STRING,MFS_GRAYED
+        MENUITEM "Save As",                     ID_FILE_SAVEAS,MFT_STRING,MFS_GRAYED
+        MENUITEM "Expand ROM - Experimental",   ID_FILE_EXPANDROM,MFT_STRING,MFS_GRAYED
+        MENUITEM MFT_SEPARATOR
+        POPUP "&Import VRAM",                   65535,MFT_STRING,MFS_GRAYED
+        BEGIN
+            MENUITEM "From a SNES game",            ID_IMPORT_SNES,MFT_STRING,MFS_ENABLED
+            MENUITEM "From a GENESIS game",         ID_IMPORT_GEN,MFT_STRING,MFS_ENABLED
+            MENUITEM "From a GBA game",             ID_IMPORT_GBA,MFT_STRING,MFS_ENABLED
+        END
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Settings",                    ID_FILE_SETTINGS,MFT_STRING,MFS_ENABLED
+        MENUITEM "E&xit",                       IDM_EXIT,MFT_STRING,MFS_ENABLED
+    END
+    POPUP "&Editor",                        65535,MFT_STRING,MFS_GRAYED
+    BEGIN
+        MENUITEM "Undo        (Ctrl+Z)",        ID_EDITOR_UNDO,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_GRAYED
+        MENUITEM "&Palettes Editor",            ID_EDITOR_PALED,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "&Tiles Editor",               ID_EDITOR_TILESETED,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Map Editor",                 ID_EDITOR_MAPED,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Block Editor",               ID_EDITOR_BLOCKED,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Scenes Editor",              ID_EDITOR_SCENED,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Layout Editor",              ID_EDITOR_LAYOUTD,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Sprite Viewer",               ID_EDITOR_SPRITED,MFT_STRING,MFS_ENABLED
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Event Editor",                ID_EDITOR_EVENTED,MFT_STRING,MFS_ENABLED
+        MENUITEM "Checkpoint Editor",           ID_EDITOR_CHECKPOINTED,MFT_STRING,MFS_ENABLED
+        MENUITEM "Property Editor",             ID_EDITOR_PROPERTYED,MFT_STRING,MFS_GRAYED
+        MENUITEM "Title Screen",                ID_EDITOR_TITLESCREEN,MFT_STRING,MFS_GRAYED
+    END
+    POPUP "Emulator",                       65535,MFT_STRING,MFS_GRAYED
+    BEGIN
+        MENUITEM "Run",                         ID_FILE_RUNINTERNALEMULATOR,MFT_STRING,MFS_ENABLED
+        MENUITEM "Settings",                    ID_FILE_INTERNALEMULATORSETTINGS,MFT_STRING,MFS_ENABLED
+        MENUITEM "End Emulation",               ID_EMULATOR_ENDEMULATION,MFT_STRING,MFS_ENABLED
+    END
+    POPUP "&Help",                          65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "&About",                      IDM_ABOUT,MFT_STRING,MFS_ENABLED
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDC_MEGAEDX ACCELERATORS
+BEGIN
+    "?",            IDM_ABOUT,              ASCII,  ALT
+    "/",            IDM_ABOUT,              ASCII,  ALT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 213, 121
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About MegaED X"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Version 1.0.1",IDC_STATIC,118,73,51,8,SS_NOPREFIX,WS_EX_TRANSPARENT
+    LTEXT           "\nDeveloped by Xeeynamo\nxeeynamo.blogspot.com",IDC_STATIC,118,86,84,24,0,WS_EX_TRANSPARENT
+END
+
+IDD_PROPERTY DIALOGEX 0, 0, 171, 137
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Properties"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Type",IDC_STATIC,59,17,17,8
+    LTEXT           "Id",IDC_STATIC,68,33,8,8
+    LTEXT           "SubId",IDC_STATIC,55,49,20,8
+    LTEXT           "HP",IDC_STATIC,66,86,10,8
+    LTEXT           "DamageMod",IDC_STATIC,35,105,40,8
+    LTEXT           "ALPHA - WARNING MAY CORRUPT ROM",IDC_STATIC,22,1,129,8
+END
+
+IDD_TITLESCREEN DIALOGEX 0, 0, 401, 276
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PALETTEN,344,20,26,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Palette",IDC_STATIC,315,23,24,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 209
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 117
+    END
+
+    IDD_PROPERTY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 164
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 130
+    END
+
+    IDD_TITLESCREEN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 394
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 269
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MegaED X"
+    IDC_MEGAEDX             "MEGAEDX"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Italian (Italy) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ITA)
+LANGUAGE LANG_ITALIAN, SUBLANG_ITALIAN
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PAL DIALOGEX 0, 0, 171, 92
+STYLE DS_ABSALIGN | DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Palette Editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
+IDD_TILESET DIALOGEX 0, 0, 293, 186
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Tileset Editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PALETTEN,227,2,26,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_PALETTES,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,241,2,11,14
+    LTEXT           "Palette",IDC_STATIC,202,4,24,8
+    LTEXT           "Locked in ASM",IDC_LTILEPROP,202,33,71,8
+    LTEXT           "Tile N. 000",IDC_LTILEINDEX,202,21,36,8
+END
+
+IDD_MAP DIALOGEX 0, 0, 435, 158
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Tile Mapping Editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Map N. 000",IDC_LMAPINDEX,193,2,38,8
+    CONTROL         "Flipped",IDC_MAPFLIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,122,37,10
+    CONTROL         "Mirrored",IDC_MAPMIRROR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,134,40,10
+    CONTROL         "Up Layer",IDC_MAPUPLAYER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,146,40,10
+    LTEXT           "Pal",IDC_STATIC,189,110,10,8
+    LTEXT           "Til",IDC_STATIC,189,95,8,8
+    LTEXT           "Col",IDC_STATIC,188,56,11,8
+    LTEXT           "Tile N. 000",IDC_LMAPTILEINDEX,194,67,35,8
+END
+
+IDD_BLOCK DIALOGEX 0, 0, 435, 158
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Block structure Editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Block N. 000",IDC_LBLOCKINDEX,196,4,40,8
+    LTEXT           "Map N. 000",IDC_LBLOCKMAPINDEX,196,126,38,8
+END
+
+IDD_SCENE DIALOGEX 0, 0, 443, 174
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Scene structure editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Scene 00",IDC_SCENED_LSCENE,5,160,30,8
+    LTEXT           "Block 000",IDC_SCENED_LSCENE2,197,160,33,8
+    LTEXT           "Selected",IDC_SCENED_LSCENE3,386,3,28,8
+    LTEXT           "Replaced",IDC_SCENED_LSCENE4,385,53,30,8
+    LTEXT           "Mouse Buttons Left = Replace (Scene)       Right = Select (All windows)",IDC_SCENED_LSCENE5,381,127,51,42
+    CONTROL         "Refresh Main",IDC_REFRESHMAIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,381,115,56,10
+END
+
+IDD_SETTINGS DIALOGEX 0, 0, 142, 74
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Settings"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EMUPATH,12,19,124,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Emulator path",IDC_STATIC,7,7,46,8
+    PUSHBUTTON      "Browse",IDC_SETTINGS_BROWSE,85,37,50,14
+    CONTROL         "Load last ROM at startup",IDC_LOADROMSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,55,95,10
+END
+
+IDD_SPRITE DIALOGEX 0, 0, 257, 158
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sprite Viewer"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_SPALETTEN,223,12,26,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPALETTES,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,237,12,11,14
+    LTEXT           "Palette",IDC_STATIC,197,15,24,8
+    EDITTEXT        IDC_SPALETTEN2,223,29,26,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPALETTES2,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,237,29,11,14
+    LTEXT           "Shift",IDC_STATIC,197,31,16,8
+END
+
+IDD_EVENT DIALOGEX 0, 0, 315, 291
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT | WS_EX_APPWINDOW
+CAPTION "Events"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Block",IDC_STATIC,40,18,17,8
+    LTEXT           "Event",IDC_STATIC,37,34,20,8
+    LTEXT           "Match",IDC_STATIC,38,68,20,8
+    LTEXT           "Type",IDC_STATIC,41,87,17,8
+    LTEXT           "X-pos",IDC_STATIC,39,106,19,8
+    LTEXT           "Y-pos",IDC_STATIC,39,125,19,8
+    LTEXT           "EventId",IDC_STATIC,32,143,26,8
+    LTEXT           "EventSubId",IDC_STATIC,20,161,38,8
+    CONTROL         "Flag1",IDC_EVENT_FLAG1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,178,33,10
+    CONTROL         "Flag2",IDC_EVENT_FLAG2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,193,33,10
+    PUSHBUTTON      "Add Event",IDC_EVENT_ADD,6,212,50,14
+    PUSHBUTTON      "Delete Event",IDC_EVENT_DELETE,65,212,50,14
+    PUSHBUTTON      "Prev Event",IDC_EVENT_PREV,6,48,50,14
+    PUSHBUTTON      "Next Event",IDC_EVENT_NEXT,65,48,50,14
+    CONTROL         "LockSubId",IDC_EVENT_LOCKSUBID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,53,49,10
+    LTEXT           "Left",IDC_STATIC,147,68,14,8
+    LTEXT           "Right",IDC_STATIC,143,87,18,8
+    LTEXT           "Top",IDC_STATIC,147,106,13,8
+    LTEXT           "Bottom",IDC_STATIC,136,125,24,8
+    LTEXT           "LockNum",IDC_STATIC,131,143,29,8
+    LTEXT           "Direction",IDC_STATIC,131,178,29,8
+    LTEXT           "Position",IDC_STATIC,135,195,26,8
+    LTEXT           "Direction (X1, X2/X3) Left=1E5E,1E6E Right=1E60,1E70 Top=1E68,1E78 Bottom=1E6E,1E7E",IDC_STATIC,126,212,67,42
+    CONTROL         "LockId",IDC_EVENT_LOCKID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,41,37,10
+    CONTROL         "LockType",IDC_EVENT_LOCKTYPE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,29,46,10
+    PUSHBUTTON      "Move Event",IDC_EVENT_MOVE,6,232,50,14
+    LTEXT           "GfxNum",IDC_STATIC,233,34,26,8
+    LTEXT           "GfxId",IDC_STATIC,240,68,19,8
+    LTEXT           "Vram Slot?",IDC_STATIC,225,87,34,8
+    LTEXT           "Palette Offset",IDC_STATIC,213,106,46,8
+    LTEXT           "Palette Slot ",IDC_STATIC,222,125,40,8
+    CONTROL         "Reverse",IDC_EVENT_GFXREVERSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,234,53,43,10
+    EDITTEXT        IDC_EVENT_TILEBUMP,215,234,40,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_VISIBLE
+    CONTROL         "",IDC_SPALETTES,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | NOT WS_VISIBLE,254,233,11,14
+    CONTROL         "Negative",IDC_EVENT_TILEBUMPNEG,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,266,236,45,10
+    CONTROL         "No Assembly",IDC_EVENT_GFXNOASSEMBLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,234,136,57,10
+    LTEXT           "Remaining Byte Count:",IDC_STATIC,119,18,74,8
+    RTEXT           "0",IDC_REMAINING_BYTE,194,18,27,8
+    LTEXT           "bytes (1/block,7/event)",IDC_REMAINING_BYTE2,223,18,88,8
+    LTEXT           "LockOffset",IDC_STATIC,124,161,36,8
+    CONTROL         "Lock->",IDC_EVENT_LOCKCAMERADIR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,95,177,34,10
+    LTEXT           "Info:",IDC_STATIC,186,270,17,8
+    CONTROL         "null",IDC_ENEMYNAME,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,211,270,92,8
+END
+
+IDD_CHECKPOINT DIALOGEX 0, 0, 177, 271
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Checkpoints"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Object Loader",IDC_STATIC,12,29,46,8
+    LTEXT           "Tile Loader",IDC_STATIC,12,41,36,8
+    LTEXT           "Palette Loader",IDC_STATIC,12,53,48,8
+    LTEXT           "Location of Megaman X - X",IDC_STATIC,12,65,86,8
+    LTEXT           "Location of Megaman X - Y",IDC_STATIC,12,77,86,8
+    LTEXT           "Location of Camera - X",IDC_STATIC,12,89,74,8
+    LTEXT           "Location of Camera - Y",IDC_STATIC,12,101,74,8
+    LTEXT           "Location of Background - X",IDC_STATIC,12,113,86,8
+    LTEXT           "Location of Background - Y",IDC_STATIC,12,125,86,8
+    LTEXT           "Left border lock",IDC_STATIC,12,137,51,8
+    LTEXT           "Right border lock",IDC_STATIC,12,149,55,8
+    LTEXT           "Top border lock",IDC_STATIC,12,161,50,8
+    LTEXT           "Bottom border lock",IDC_STATIC,12,173,61,8
+    LTEXT           "Forced Background - X",IDC_STATIC,12,185,73,8
+    LTEXT           "Forced Background - Y",IDC_STATIC,12,197,73,8
+    LTEXT           "Background scrolling",IDC_STATIC,12,209,66,8
+    LTEXT           "Teleport Modifier",IDC_STATIC,12,221,55,8
+    LTEXT           "Num",IDC_STATIC,12,6,15,8
+    LTEXT           "Offset",IDC_CHECKPOINT_OFFSET_NAME,80,6,37,8
+    LTEXT           "X2/X3 Byte0",IDC_STATIC,12,233,40,8
+    LTEXT           "X2/X3 Byte1",IDC_STATIC,12,246,40,8
+    LTEXT           "X3 Byte2",IDC_STATIC,12,259,30,8
+END
+
+IDD_INTERNALEMULATORSETTINGS DIALOGEX 0, 0, 183, 269
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Internal Emulator Settings"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_IEKEYUP,18,30,40,14,ES_AUTOHSCROLL
+    LTEXT           "Up",IDC_STATIC,60,33,10,8
+    EDITTEXT        IDC_IEKEYDOWN,18,49,40,14,ES_AUTOHSCROLL
+    LTEXT           "Down",IDC_STATIC,60,50,19,8
+    EDITTEXT        IDC_IEKEYLEFT,18,66,40,14,ES_AUTOHSCROLL
+    LTEXT           "Left",IDC_STATIC,60,68,14,8
+    EDITTEXT        IDC_IEKEYRIGHT,18,84,40,14,ES_AUTOHSCROLL
+    LTEXT           "Right",IDC_STATIC,60,86,18,8
+    EDITTEXT        IDC_IEKEYA,18,102,40,14,ES_AUTOHSCROLL
+    LTEXT           "A",IDC_STATIC,60,103,8,8
+    EDITTEXT        IDC_IEKEYB,18,119,40,14,ES_AUTOHSCROLL
+    LTEXT           "B",IDC_STATIC,60,121,8,8
+    EDITTEXT        IDC_IEKEYX,18,137,40,14,ES_AUTOHSCROLL
+    LTEXT           "X",IDC_STATIC,60,138,8,8
+    EDITTEXT        IDC_IEKEYY,18,154,40,14,ES_AUTOHSCROLL
+    LTEXT           "Y",IDC_STATIC,60,158,8,8
+    EDITTEXT        IDC_IEKEYL,18,174,40,14,ES_AUTOHSCROLL
+    LTEXT           "L",IDC_STATIC,60,175,8,8
+    EDITTEXT        IDC_IEKEYR,18,191,40,14,ES_AUTOHSCROLL
+    LTEXT           "R",IDC_STATIC,60,193,8,8
+    EDITTEXT        IDC_IEKEYSELECT,18,209,40,14,ES_AUTOHSCROLL
+    LTEXT           "Select",IDC_STATIC,60,210,24,8
+    EDITTEXT        IDC_IEKEYSTART,18,226,40,14,ES_AUTOHSCROLL
+    LTEXT           "Start",IDC_STATIC,60,230,18,8
+    EDITTEXT        IDC_IEKEYNEXTSTATE,87,30,40,14,ES_AUTOHSCROLL
+    LTEXT           "Next State",IDC_STATIC,129,33,36,8
+    EDITTEXT        IDC_IEKEYPREVSTATE,87,49,40,14,ES_AUTOHSCROLL
+    LTEXT           "Prev State",IDC_STATIC,129,50,35,8
+    EDITTEXT        IDC_IEKEYSAVESTATE,87,66,40,14,ES_AUTOHSCROLL
+    LTEXT           "Save State",IDC_STATIC,129,68,36,8
+    EDITTEXT        IDC_IEKEYLOADSTATE,87,84,40,14,ES_AUTOHSCROLL
+    LTEXT           "Load State",IDC_STATIC,129,86,36,8
+    EDITTEXT        IDC_IEKEYFASTFORWARD,87,102,40,14,ES_AUTOHSCROLL | NOT WS_VISIBLE
+    LTEXT           "Fast Forward",IDC_STATIC,129,103,45,8,NOT WS_VISIBLE
+    PUSHBUTTON      "Save",IDC_IESAVE,36,246,50,14
+    PUSHBUTTON      "Cancel",IDC_IECANCEL,96,246,50,14
+    COMBOBOX        IDC_IEJOYNUM,54,6,48,54,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Joystick",IDC_STATIC,105,9,26,8
+END
+
+IDD_LAYOUT DIALOGEX 0, 0, 443, 191
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Layout structure editor"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Scene 000",IDC_SCENED_LSCENE2,197,160,33,8
+    LTEXT           "Selected",IDC_SCENED_LSCENE3,386,3,28,8
+    LTEXT           "Replaced",IDC_SCENED_LSCENE4,385,53,30,8
+    LTEXT           "Mouse Buttons Left = Replace (Scene)       Right = Select (All windows)",IDC_SCENED_LSCENE5,381,127,51,42
+    CONTROL         "Refresh Main",IDC_LREFRESHMAIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,381,115,56,10
+    LTEXT           "Width",IDC_SCENED_LSCENE6,5,176,20,8
+    LTEXT           "Height",IDC_SCENED_LSCENE7,91,176,22,8
+    LTEXT           "SceneCount",IDC_SCENED_LSCENE8,190,176,70,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_PAL, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 169
+        TOPMARGIN, 1
+    END
+
+    IDD_TILESET, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 292
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 184
+    END
+
+    IDD_MAP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 434
+    END
+
+    IDD_BLOCK, DIALOG
+    BEGIN
+        RIGHTMARGIN, 433
+        TOPMARGIN, 2
+    END
+
+    IDD_SCENE, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        TOPMARGIN, 5
+    END
+
+    IDD_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 138
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 70
+    END
+
+    IDD_SPRITE, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        TOPMARGIN, 2
+    END
+
+    IDD_EVENT, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 311
+        VERTGUIDE, 74
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 287
+        HORZGUIDE, 26
+    END
+
+    IDD_CHECKPOINT, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 173
+        VERTGUIDE, 108
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 267
+    END
+
+    IDD_INTERNALEMULATORSETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 179
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 265
+    END
+
+    IDD_LAYOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        TOPMARGIN, 5
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041004b0"
+        BEGIN
+            VALUE "CompanyName", "Xeeynamo"
+            VALUE "FileDescription", "Megaman X Editor"
+            VALUE "FileVersion", "1.0.0.0"
+            VALUE "InternalName", "MegaED X.exe"
+            VALUE "LegalCopyright", "Xeeynamo (C) 2010"
+            VALUE "OriginalFilename", "MegaED X.exe"
+            VALUE "ProductName", "MegaED X"
+            VALUE "ProductVersion", "1.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x410, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_TELEPORT            BITMAP                  "Resources\\Teleport.bmp"
+IDB_XSPRITE             BITMAP                  "Resources\\X.bmp"
+IDB_TOOLBAR             BITMAP                  "Resources\\Toolbar.bmp"
+IDB_MEGAEDXLOGO         BITMAP                  "Resources\\MegaEDXLogo.bmp"
+#endif    // Italian (Italy) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
