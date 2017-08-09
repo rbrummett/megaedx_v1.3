@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <vector>
 #include <sstream>
+#include <string>
 
 MMXCore nmmx;
 RenderED render;
@@ -83,6 +84,13 @@ char   importName[MAX_PATH];
 LPBYTE importFile;
 DWORD  importSize;
 
+//below constants used in geteventinfotext,checkeventinfo,change_eventinfo
+const signed item_size = 9;
+const signed sc_size = 10;
+const signed x1_size = 63;
+const signed x2_size = 67;
+const signed x3_size = 68;
+
 static POINTS mousePos;
 static unsigned mouseEventBlockNum = 0;
 static unsigned mouseEventEventNum = 0;
@@ -116,6 +124,325 @@ static EventInfo *GetEvent() {
 	}
 
 	return ret;
+}
+
+void s1::saveBlock(WORD mapSave, int dBlockSelected, int blockParam) {
+	//mapAlloc[blockParam].SetPos(mapSave);
+	oldMap = mapSave;
+	oldBlock = dBlockSelected;
+	blockNum = blockParam;
+}
+void s1::undoBlock(HWND hWnd = hWID[0]) {
+	*(LPWORD)(nmmx.rom + nmmx.pBlocks + (oldBlock << 3) + 2 * blockNum) = mapAlloc[blockNum].GetPos();
+	//WndProc(hWnd, 'T', 200, 300);
+}
+
+std::string getEventInfoText(int elemNum) {
+	//enemies have same event Id's in different levels
+	int game = nmmx.type;
+	int lvl = nmmx.level;
+	std::string text = "null";
+	//int block = eventsBlock.GetPos();
+	unsigned id = GetEvent()->eventId;
+	unsigned subid = GetEvent()->eventSubId;
+	int type = GetEvent()->type; //when type=3 enemy,type=0 usually item
+
+	//todo: capsule info
+	//sine faller caption appears in mmx2 intro stage. did i miss this or is it a mistake?
+	std::string items[item_size] = { "Weapon Tank", "Energy Tank", "Extra Life", "Sub Tank", "Boss Doors", "Heart Tank", "Sub-boss Doors", "Capsule", "Ride Armor Module" };
+	std::string spec_case[sc_size] = { "Checkpoint", "Sea Attacker", "Utoboros", "RT-55J", "Scrap Robo", "Flamer", "Gear Platform", "Storm Eagle", "Sine Faller", "Slide Cannon" };
+	std::string capsules[11] = { "Armor Upgrade", "X-buster upgrade", "Helmet Upgrade", "Leg Parts", "Hadoken Upgrade", "Shoryuken Upgrade",
+		"Helmet Chip", "Leg Parts Chip", "X-buster Chip", "Armor Chip", "Hyper Chip" };
+	std::string x1sprites[x1_size] = {
+		"Spiky", "Gun Volt", "Crusher", "Bee Blader", "Ball de Voux", "Bomb Been", "Jamminger", "Road Attacker",
+		"Amenhopper", "Mega Tortoise", "Anglerge", "Gulpfer", "Launch Octopus",
+		"Planty", "Axe Max", "Crag Man", "Mad Pecker", "Hoganmer", "Ride Armor", "Sting Chameleon",
+		"Mine Cart", "Batton Bone", "Mole Borer", "Flammingle", "Dig Labor", "Metal Wing", "Metall C-15", "Armored Armadillo",
+		"Sky Claw", "Flame Pillar", "Compressor", "Dripping Lava", "Rolling Gabyoall", "Flame Mammoth",
+		"Missiles", "Lift Cannon", "Death Rogumer Cannon",
+		"Hotarion", "Thunder Slimer", "Rush Roader", "Turn Cannon", "Spark Mandrill",
+		"Dodge Blaster", "Ray Trap", "Ray Field", "Hover Platform", "Ladder Yadder", "Boomer Kuwanger",
+		"Raybit", "Tombot", "Igloo", "Snowball", "Snow Shooter", "Chill Penguin",
+		"Zero", "Vile", "Vile in Mech Armor", "Prison Capsule", "Bosspider",
+		"Rangda Bangda",
+		"D-Rex",
+		"Mad Pecker", "Sigma" };
+	std::string x2sprites[x2_size] = {
+		"Scrambler", "Cannon Driver", "Scriver", "Bar Waying", "Mecha Arm", "Slidame", "Gigantic Mechaniloid CF-0",
+		"Hanged Reploid", "Disk Boy 08", "Garakuta Robot", "Pararoid S-38", "Pararoid R-5", "Agile", "Morph Moth",
+		"Croaker Hopper", "Weather Crystal", "Sole Solar", "Probe 8201-U", "Elevator Lift", "Sky Farmer", "Aclanda", "Wire Sponge",
+		"Batton Bone", "Fishern", "Sea Canthller", "Jelly Seeker", "Barite Laser", "Bubble Crab",
+		"Beetron", "Rising Lava", "Lift Platform", "Falling Cliff", "Gas Pipe", "Morgun", "Flame Stag",
+		"Barrier Attacker", "Blecker", "Spotlight", "Collapsing Floor", "Installer", "Chop Register", "Sigma", "Targeting Scanner", "Raider Killer", "Magna Centipede",
+		"Rabbit Ride Armor", "Refleczer", "Crystal Block", "Ice Block", "Magna Quartz", "Crystal Snail",
+		"Roader", "Rocks", "Jet Bike", "Sandstorm Generator", "Wall", "Overdrive Ostrich",
+		"Tubamail-S", "Tiranos", "Cylinder Waying", "Armor Soldier", "Wheel Gator",
+		"Violen",
+		"Flame Bursts", "Serges Tank",
+		"Pararoid V-1", "Agile Flyer" };
+	std::string x3sprites[x3_size] = {
+		"Notor Banger", "Caterkiller", "Mac", "Falling Ceiling", "Earth Commander", "Head Gunner", "Ganseki Mine", "Ganseki Carrier", "Broken Window", "Maoh the Giant",
+		"Lift Platform", "Ride Armor", "Genjibo", "Helit", "Ride Armor Platform", "Hangerter", "Carry Arm", "Bit", "Byte", "Crates", "Blast Hornet",
+		"Ice de Voux", "Wind Turbine", "Snow Slider", "Blizzard Buffalo",
+		"Blady", "Elevator", "Wall Cancer", "Gravity Beetle",
+		"Victoroid", "Mine Tortoise", "Hotareeca", "Toxic Seahorse",
+		"Trapper", "Crablaster", "Meta Capsule", "Lift Platform", "Wall Shock", "Volt Catfish",
+		"Hamma Hamma", "Walk Blaster", "Crush Crawfish",
+		"Drill Waying", "Iwan de Voux", "Mud Pourer", "Boulder", "Drimole-W", "Hell Crusher", "Tunnel Rhino",
+		"Tombort", "Wild Tank", "Drill Waying", "Worm Seeker-R", "Atareeter", "Neon Tiger",
+		"Elevator", "Vile in Mech Armor",
+		"Spikes", "Crushing Wall", "REX-2000", "Godkarmachine O Inary", "Press Disposer",
+		"Mosquitus", "Escanail", "Volt Kurageil",
+		"Item Drop", "Dr. Doppler",
+		"Sigma" };
+
+	if (type == 0) {
+		text = items[elemNum];
+		if (id == 0x1 && subid == 0x80)
+			text += " (large)";
+		else if (id == 0x1 && subid == 0x81)
+			text += " (small)";
+		else if (id == 0x2 && subid == 0x80)
+			text += " (large)";
+		else if (id == 0x2 && subid == 0x82)
+			text += " (small)";
+		else if (game == 2 && id == 0x17)
+			switch (subid) {
+			case 8:
+				text = "Frog Armor Module";
+				break;
+			case 4:
+				text = "Hawk Armor Module";
+				break;
+			case 2:
+				text = "Kangaroo Armor Module";
+				break;
+			default:
+				text = items[8];
+				break;
+			}
+	}
+	else if (type == 2) {
+		text = spec_case[elemNum];
+		if (id == 0x4 && subid == 0x6) text = "Hover Platform";
+	}
+	else if (type == 3 && id == 0x4D) {
+		if (game == 0) { //x1
+			switch (lvl) {
+			case 2:
+				text = capsules[0];
+				break;
+			case 3:
+				text = capsules[4];
+				break;
+			case 4:
+				text = capsules[1];
+				break;
+			case 5:
+				text = capsules[2];
+				break;
+			case 8:
+				text = capsules[3];
+				break;
+			default:
+				text = items[7];
+				break;
+			}
+		}
+		else if (game == 1) { //x2
+			switch (lvl) {
+			case 1:
+				text = capsules[0];
+				break;
+			case 6:
+				text = capsules[2];
+				break;
+			case 7:
+				text = capsules[3];
+				break;
+			case 8:
+				text = capsules[1];
+				break;
+			case 0xB:
+				text = capsules[5];
+				break;
+			default:
+				text = items[7];
+				break;
+			}
+		}
+		else if (game == 2) { //x3
+			switch (lvl) {
+			case 1:
+				text = capsules[6];
+				break;
+			case 2:
+				text = capsules[3];
+				break;
+			case 4:
+				text = capsules[7];
+				break;
+			case 3:
+				text = capsules[8];
+				break;
+			case 5:
+				text = capsules[0];
+				break;
+			case 6:
+				text = capsules[9];
+				break;
+			case 7:
+				text = capsules[2];
+				break;
+			case 8:
+				text = capsules[1];
+				break;
+			case 0xA:
+				text = capsules[10];
+				break;
+			default:
+				text = items[7];
+				break;
+			}
+		}
+	}
+	else if (game == 0 && type == 3) {
+		text = x1sprites[elemNum];
+		if (id == 0x2F && subid == 0)
+			text = "Armor Soldier";
+		else if (id == 0x2D && subid == 0)
+			text = "Batton M-501";
+	}
+	else if (game == 1 && type == 3) {
+		text = x2sprites[elemNum];
+		if (id == 0x2F && subid != 1)
+			text = "Rideloid-G";
+	}
+	else if (game == 2 && type == 3) {
+		text = x3sprites[elemNum];
+		if (id == 0x39 && subid == 0x2)
+			text = "Falling Blocks";
+		else if (id == 0x18 && subid == 0x80)
+			text = "Head Gunner Customer";
+		else if (id == 0x1E && subid == 0x1)
+			text = "Victoroid Customer";
+	}
+	return text;
+}
+
+int checkEventInfo(int spriteNum) {
+	int game = nmmx.type;
+	int lvl = nmmx.level;
+	unsigned id = GetEvent()->eventId;
+	unsigned subid = GetEvent()->eventSubId;
+	int type = GetEvent()->type;
+	int validSprite = -1; //default value. invalid sprite
+
+	int itemArr[item_size] = { 0x1,0x2,0x4,0x5,0x7,0xB,0x11,0x4D,0x17 };
+	int scArr[sc_size] = { 0xB,
+		0xF,0x14,0x1D,0x1C,0x4,0x3,0x20,0x5,0x1E }; //special cases like enemy loading events, checkpoint
+	int x1spriteArr[x1_size] = { 0x15,0x29,0xF,0x22,0x27,0x19,0x36,0x11, //intro
+		0x20, 0x5B, 0x21, 0x1D, 0x7, //level 1
+		0x6,0xB,0x34,0x1E,0x1,0x2F,0xA,
+		0x2B,0x2D,0x2C,0x4,0x30,0x35,0x2E,0x14,
+		0x49,0x47,0x39,0x4C,0x4F,0xC,
+		0x46,0x59,0x50,
+		0x37,0x3,0xD,0x17,0x31,
+		0x13,0x44,0x42,0x16,0x3B,0x5,
+		0x51,0x3A,0x57,0x54,0x53,0x2,
+		0x33,0x66,0x67,0x64,0x63, //sigma stage 1
+		0x5D,
+		0x62,
+		0x68,0x65 }; //final stage
+	int x2spriteArr[x2_size] = { 0xA, 0xC, 0x9, 0x1B, 0x5, 0x4,0xE, //intro
+		0x11,0x49,0x16,0x12,0xB,0x36,0x3B,
+		0x17,0x20,0x1A,0x2C,0x1C,0x21,0x5B,0x23,
+		0x50,0x19,0x29,0x32,0x2D,0x1E,
+		0x22,0x2E,0x62,0x12,0x30,0x1F,0x33,
+		0x3A,0x37,0x55,0x54,0x39,0x8,0x67,0x3D,0x33,0x34, //level 5
+		0x2F,0x44,0x51,0x40,0x53,0x1D,
+		0x65,0x66,0x45,0x46,0x52,0x35,
+		0x57,0x3F,0x42,0x49,0x45,
+		0x5A, //x-hunter stage 1
+		0x1D7,0x61,
+		0x10,0x59 };
+	int x3spriteArr[x3_size] = { 0x8,0xB,0x62,0x20,0x6,0x18,0x1B,0x35,0x21,0x50, //intro
+		0x5,0x2F,0x2C,0xD,0x26,0x4C,0xF,0x46,0x47,0x4B,0x53,
+		0x29,0x24,0x23,0x52,
+		0x3,0x19,0xE,0x59,
+		0x1E,0x1C,0x42,0x57,
+		0x3D,0x11,0x16,0x37,0x32,0x58, //level 5
+		0x2D,0x28,0x54,
+		0x2B,0x29,0x3F,0x39,0xC,0x30,0x55,
+		0x1F,0x1D,0x2B,0x27,0x22,0x56,
+		0x31,0x49,
+		0x36,0x38,0x51,0x45,0x5A, //doppler 1
+		0x5B,0x9,0x4A,
+		0x65,0x48,
+		0x5E };
+
+	if (type == 0 || (type == 3 && id == 0x4D)) {
+		for (int i = 0; i < item_size; i++) {
+			if (spriteNum == itemArr[i])
+				validSprite = i;
+		}
+	}
+	else if (type == 2) {
+		if (id == 0xB && subid != 0x1) {
+			validSprite = -1;
+			return validSprite;
+		}
+		else if (id == 0x4 && !(subid == 0x4 || subid == 0x6)) {
+			validSprite = -1;
+			return validSprite;
+		}
+		else if (id == 0x3 && subid != 0x2) {
+			validSprite = -1;
+			return validSprite;
+		}
+		else if (id == 0x5 && game != 0) {
+			validSprite = -1;
+			return validSprite;
+		}
+		for (int i = 0; i < sc_size; i++) {
+			if (spriteNum == scArr[i])
+				validSprite = i;
+		}
+	}
+	else if (game == 0 && type == 3) {
+		//mmx1
+		for (int i = 0; i < x1_size; i++) {
+			if (spriteNum == x1spriteArr[i])
+				validSprite = i;
+		}
+	}
+	else if (game == 1 && type == 3 || (lvl == 4 && type == 0)) {
+		//mmx2
+		for (int i = 0; i < x2_size; i++) {
+			if (spriteNum == x2spriteArr[i])
+				validSprite = i;
+		}
+	}
+	else if (game == 2 && type == 3) {
+		//mmx3
+		for (int i = 0; i < x3_size; i++) {
+			if (spriteNum == x3spriteArr[i])
+				validSprite = i;
+		}
+	}
+	return validSprite;
+}
+
+void changeEventInfoText() {
+	unsigned id = GetEvent()->eventId;
+
+	int element = checkEventInfo(id);
+	if (element != -1) {
+		SetWindowText(GetDlgItem(hWID[7], IDC_ENEMYNAME), getEventInfoText(element).c_str());
+	}
+	else {
+		SetWindowText(GetDlgItem(hWID[7], IDC_ENEMYNAME), "null");
+	}
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -322,7 +649,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			sscanf_s(text, "%x", &currentEventNum);
 
 			bool validEvent = !nmmx.eventTable[currentBlockNum].empty() && currentEventNum < (long)nmmx.eventTable[currentBlockNum].size();
-			if (validEvent) {
+			if (validEvent) {				
 				auto iter = nmmx.eventTable[currentBlockNum].begin();
 				std::advance(iter, currentEventNum);
 				RECT boundingBox = nmmx.GetBoundingBox(*iter);
@@ -372,6 +699,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 							sprintf_s(text, "%x", tempEventNum);
 							SetWindowText(GetDlgItem(hWID[7], 0x9101), text);
 							foundEvent = true;
+							changeEventInfoText();
 							RepaintAll();
 							break;
 						}
@@ -436,6 +764,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				EnableMenuItem(GetSubMenu(GetMenu(hWnd), 0), 1, MF_BYPOSITION | MF_ENABLED);
 				EnableMenuItem(GetSubMenu(GetMenu(hWnd), 0), 2, MF_BYPOSITION | MF_ENABLED);
 				EnableMenuItem(GetSubMenu(GetMenu(hWnd), 0), 3, MF_BYPOSITION | MF_ENABLED);
+				DrawMenuBar(hWnd);
 
 				for (int i = 0; i<0x400; i++)
 					nmmx.raw2tile4bpp(nmmx.vramCache + (i * 0x40), nmmx.vram + (i * 0x20));
@@ -591,6 +920,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case ID_EDITOR_UNDO: {
 			//undoes last command like in windows paint
 			//some routine with memcpy()
+			s1 undo;
+			undo.undoBlock();
+			RefreshLevel(true);
 			break;
 		}
 		case IDT_PLAY:
@@ -780,7 +1112,6 @@ LOC_RUNEMU:
 				RefreshLevel(true);
 				break;
 			}
-			case 'D':
 LOC_DEBUG:
 				drawLevelInfo = !drawLevelInfo;
 				InvalidateRect(hWnd, NULL, false);

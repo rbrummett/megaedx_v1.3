@@ -251,51 +251,51 @@ BOOL CALLBACK MapProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			render.RefreshMapCache(dMapSelected);
 			RepaintAll();
 		}
-		break;
+		break;		
 	}
 	case WM_RBUTTONDOWN:
+	{
+		if ((lParam & 0xFFFF) < 0x0100)
 		{
-			if ((lParam & 0xFFFF) < 0x0100)
-			{
-				dMapTextWrite = false;
-				dMapSelected = dMapOverMouse;
-				selection = 0;
+			dMapTextWrite = false;
+			dMapSelected = dMapOverMouse;
+			selection = 0;
 
-				rectMapFocus.left = ((dMapSelected & 0xf) << 4);
-				rectMapFocus.right = rectMapFocus.left + 16;
-				rectMapFocus.top = (dMapSelected / 16 - mapScroll.GetPos()) << 4;
-				rectMapFocus.bottom = rectMapFocus.top + 16;
+			rectMapFocus.left = ((dMapSelected & 0xf) << 4);
+			rectMapFocus.right = rectMapFocus.left + 16;
+			rectMapFocus.top = (dMapSelected / 16 - mapScroll.GetPos()) << 4;
+			rectMapFocus.bottom = rectMapFocus.top + 16;
 
-				UpdateMapEdit(hWnd, selection);
+			UpdateMapEdit(hWnd, selection);
 
-				InvalidateRect(hWnd, NULL, false);
-			}
-			else if ((lParam & 0xFFFF) >= 380)
-			{
-				dTileTextWrite = false;
-				dTileSelected = dTileOverMouse;
-
-				rectTileFocus.left = 380 + ((dTileSelected & 0xf) << 4);
-				rectTileFocus.right = rectTileFocus.left + 16;
-				rectTileFocus.top = (dTileSelected / 16 - tileScroll.GetPos()) << 4;
-				rectTileFocus.bottom = rectTileFocus.top + 16;
-
-				InvalidateRect(hWnd, NULL, false);
-			}
-			else if (PtInRect(&rMapEdit, p))
-			{
-				dTileOverMouse = mapTileIndex.GetPos();
-				dTileSelected = dTileOverMouse;
-				UpdateMapEdit(hWnd, selection);
-				RepaintAll();
-			}
-			else if (PtInRect(&rectTileSave, p)) {
-				dTileOverMouse = dTileSave;
-				dTileSelected = dTileOverMouse;
-				InvalidateRect(hWnd, NULL, false);
-			}
+			InvalidateRect(hWnd, NULL, false);
 		}
-		break;
+		else if ((lParam & 0xFFFF) >= 380)
+		{
+			dTileTextWrite = false;
+			dTileSelected = dTileOverMouse;
+
+			rectTileFocus.left = 380 + ((dTileSelected & 0xf) << 4);
+			rectTileFocus.right = rectTileFocus.left + 16;
+			rectTileFocus.top = (dTileSelected / 16 - tileScroll.GetPos()) << 4;
+			rectTileFocus.bottom = rectTileFocus.top + 16;
+
+			InvalidateRect(hWnd, NULL, false);
+		}
+		else if (PtInRect(&rMapEdit, p))
+		{
+			dTileOverMouse = mapTileIndex.GetPos();
+			dTileSelected = dTileOverMouse;
+			UpdateMapEdit(hWnd, selection);
+			RepaintAll();
+		}
+		else if (PtInRect(&rectTileSave, p)) {
+			dTileOverMouse = dTileSave;
+			dTileSelected = dTileOverMouse;
+			InvalidateRect(hWnd, NULL, false);
+		}
+	}
+	break;		
 	case WM_MOUSEMOVE:
 		if ((lParam & 0xFFFF) < 0x0100)
 		{

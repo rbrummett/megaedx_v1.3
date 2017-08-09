@@ -102,9 +102,9 @@ const BYTE _bigTextAlloc[][26*2] = {
 	0xA9, 0xB9, // Z
 	},
 };
-
-const BITMAPINFO _bmpInfo = {sizeof(BITMAPINFOHEADER), 8, -8, 1, 16, BI_RGB, 0, 0, 0, 0, 0};
+const BITMAPINFO _bmpInfo = { sizeof(BITMAPINFOHEADER), 8, -8, 1, 16, BI_RGB, 0, 0, 0, 0, 0 };
 const BITMAPINFO _bmpInfoEmu = { sizeof(BITMAPINFOHEADER), 256, -224, 1, 32, BI_RGB, 0, 0, 0, 0, 0 };
+
 RenderED::~RenderED()
 {
 	Destroy();
@@ -434,17 +434,18 @@ void RenderED::RenderEvent(HDC hDC, int x, int y, BYTE type, BYTE id, BYTE subId
 		DeleteObject(brush);
 
 	}
-	else if (nmmx.pSpriteAssembly && nmmx.pSpriteOffset[type]
+	else if (nmmx.pSpriteAssembly && (nmmx.pSpriteOffset[type] || (nmmx.type == 2 && type == 0)) //nmmx.pSpriteOffset[2] is never initialized. don't confuse nmmx.type (game#) with type (event.type)
 		&& (type != 1 || (nmmx.type == 0 && id == 0x21))
-		&& (type != 0 || (id == 0xB && subId == 0x4 || id == 0x1 || id == 0x2 || id == 0x4 || id == 0x5)) // FIXME: more graphics get uncompressed that we are missing
+		&& (type != 0 || (id == 0xB || id == 0x1 || id == 0x2 || id == 0x4 || id == 0x5 || id == 0x17))
 		&& !(nmmx.type == 1 && type == 3 && id == 0x2) // something near the arm doesn't have graphics
 		) {
 		// draw associated object sprite
 
 		// check if enemy type
 		// check if enemy has valid sprite offset
+
 		unsigned gfxNum = *(nmmx.rom + nmmx.pSpriteOffset[type] + ((id - 1) * (nmmx.type == 2 ? 5 : 2)) + 1);
-		unsigned assemblyNum = *(nmmx.rom + nmmx.pSpriteOffset[type] + ((id - 1) * (nmmx.type == 2 ? 5 : 2)));
+		unsigned assemblyNum = *(nmmx.rom + nmmx.pSpriteOffset[type] + ((id - 1) * (nmmx.type == 2 ? 5 : 2)));		
 		
 		// workarounds for some custom types
 		if (nmmx.type == 0 && type == 1 && id == 0x21) {
@@ -460,19 +461,28 @@ void RenderED::RenderEvent(HDC hDC, int x, int y, BYTE type, BYTE id, BYTE subId
 		else if (type == 0 && id == 0x5) {
 			//subtank
 			gfxNum = 0x8C;
-			assemblyNum = 0x96; //96,8d,94,8b closest
-								//fail: 8f,8e,90,8c,8d,91,92,93,94,95,c6,8b,8a,89,01,82,97
+			if (nmmx.type == 0) assemblyNum = 0x58;
+			else if (nmmx.type == 1) assemblyNum = 0x53;
+			else if (nmmx.type == 2) assemblyNum = 0x3F;
+			 //0x52 probably will work,missing one top graphic.0x53 best for mmx2-wrong order
+			//mmx1->0x2f whole graphic,0x32 half blue.0x58 will work
+			//mmx3:0x13 close,0x22 blue,0x3c looks 90% good,0x32 might work 0x35->skip to 0x50. 5's done. 0x3f-wrong order
 		}
-		else if (type == 0 && (id == 0x1 || id == 0x2 || id == 0x4 || id == 0x5)) {
-			// extra life and big energy
+		else if (type == 0 && (id == 0x1 || id == 0x2 || id == 0x4)) {
+			// extra life, big energy, and weapon tank
 			gfxNum = 0xA;
 			assemblyNum = (id == 0x2) ? 0x12 : 0x11;
 			if (id == 0x1) assemblyNum = 0xFF;
 			
 		}
+		else if (nmmx.type ==2 && type == 0 && id == 0x17) {
+			//ride armor modules in mmx3
+			gfxNum = 0x3B;
+			assemblyNum = 0x15; //0x15 all graphics.
+			//fail:-1,0x7e,0x7f,0x7c,0x80,0x83,0x31-0x3f,0x40-4a
+		}
 
 		unsigned palNum = nmmx.graphicsToPalette.count(gfxNum) ? nmmx.graphicsToPalette[gfxNum] : 0x0;
-
 		RenderObject(hDC, x, y, gfxNum, palNum, assemblyNum);
 	}
 	else {
@@ -495,7 +505,11 @@ void RenderED::RenderObject(HDC hDC, int x, int y, unsigned gfxNum, unsigned pal
 	unsigned size = 0;
 	unsigned frame = 0;
 	bool switchitem = false;
+	bool forward = true;
 	unsigned offset = 0x80;
+	short ride_letter = 0;
+	short x_letter_offset = 0;
+	short y_letter_offset = 0;
 
 	if (nmmx.type < 3) {
 		if (gfxNum == 0x4a) {
@@ -504,7 +518,27 @@ void RenderED::RenderObject(HDC hDC, int x, int y, unsigned gfxNum, unsigned pal
 			gfxNum = 0x4b;
 			assemblyNum = 0x50;
 		}	
-		else if (gfxNum == 0x8c) palNum = 0x1C; //palette for sub tank
+		else if (gfxNum == 0x8C) {
+			palNum = 0x1C; //palette for sub tank
+			forward = false;
+		}
+		else if (gfxNum == 0x3B && nmmx.type == 2) {
+			forward = false;
+			if (nmmx.level == 3) {
+				ride_letter = 12; //frog
+				x_letter_offset = 7;
+			}
+			else if (nmmx.level == 6) {
+				ride_letter = 11; //hawk
+				x_letter_offset = 15;
+			}
+			else if (nmmx.level == 4) {
+				ride_letter = 10; //kangaroo
+				x_letter_offset = -28;
+				y_letter_offset = 19;
+				forward = true;
+			}
+		}
 		else if (gfxNum == 0xA && assemblyNum == 0xFF) {
 			//weapon energy
 			//little energy 0x22 & ??
@@ -568,8 +602,19 @@ void RenderED::RenderObject(HDC hDC, int x, int y, unsigned gfxNum, unsigned pal
 		boundingBox.bottom = 0;
 		boundingBox.top = LONG_MAX;
 
-		for (unsigned i = 0; i < tileCnt; ++i) {
-			auto map = baseMap + (tileCnt - i - 1) * 4;
+		unsigned int counter = tileCnt;
+		short tile8 = 0;
+		short tile0 = 0;
+		short tile8two = 0;
+		short tile6 = 0;
+
+		//while (loop.comparison(i, tileCnt, direction)) {
+		for (unsigned i = 0; i < tileCnt; ++i) {// . i = tileCnt; i > 0; --i
+			auto map = baseMap + (tileCnt - i - 1) * 4; //8 - 0 - 1) * 4,7*4,6,5,4,3,2,1.28,24,20,16,12,8,4,0
+			if (forward == false) {
+				--counter;
+				map = baseMap + (tileCnt - counter - 1) * 4;//8-7-1)*4,0*4,1,2,3,4,5,6,7.0,4,8,12,16,20,24,28
+			}
 			char xpos = 0;
 			char ypos = 0;
 			unsigned tile = 0;
@@ -600,10 +645,12 @@ void RenderED::RenderObject(HDC hDC, int x, int y, unsigned gfxNum, unsigned pal
 					if (assemblyNum == 0x11) {
 						// temporary fix for some items
 						tile -= 0x80;
+						//fail: 0x40,0x80,0x75=1 tile
 					}
 					else if (assemblyNum == 0x12) {
 						//0x70 for weapon energy. 0x80 for life energy
 						if (switchitem) offset = 0x70;
+						//fail 0x75,0x65,0x60
 						tile -= offset;
 					}					
 				}
@@ -611,6 +658,94 @@ void RenderED::RenderObject(HDC hDC, int x, int y, unsigned gfxNum, unsigned pal
 					if (assemblyNum == 0x88) {
 						// capsule
 						tile -= 0x40;
+					}
+				}
+				else if (gfxNum == 0x3B) {
+					//assembly=0x3f.tile 1=top part with pink,tile 8,9=bottom part,tile 10=k,11=h,12=
+					//assembly=0x3. tile 0=top,tile 8=bottom,10=k,h,12=f+anothertile,tileCnt=12
+					//assembly=0x15 tile 0=top, tile 8=bottom,10=k,11=h,12=f
+					if (tile != 0 && tile != 8 && tile != ride_letter) continue;
+					if (tile == 0) {
+						//xpos += 5;
+						ypos += 8;
+					}
+					else if (tile == 8) {
+						xpos -= 24;
+					}
+					else if (tile == ride_letter) {
+						xpos += x_letter_offset; //xpos += 15 hawk,xpos += 7 frog,xpos -= 28 k
+						ypos -= 18 - y_letter_offset; //ypos -= 18 hawk,frog; ypos += 1 k
+					}
+				}
+				else if (gfxNum == 0x8C) {
+					if (assemblyNum == 0x58) { //mmx1
+						if ((tile != 0 && tile != 6 && tile != 8)) continue;
+						if (tile == 8) {
+							tile8++;
+							info = 0;							
+							ypos += 85;
+							if (tile8 > 2) continue;
+							else if (tile8 > 1) {
+								xpos += 1;
+								ypos += 16;
+								info = 96;
+							}
+						}
+						else if (tile == 6){
+							x += 16;
+							xpos -= 12;
+							ypos -= 34;
+							info = 128;
+						}
+						else if (tile == 0) {
+							x += 32;
+							xpos -= 72;							
+							ypos -= 60;
+						}
+					}
+					if (assemblyNum == 0x53) { //mmx2
+						if ((tile != 0 && tile != 6 && tile != 8)) continue;
+						if (tile == 0) {
+							ypos += 14;
+							xpos -= 16;
+						}
+						else if (tile == 6) {
+							x += 8;							
+							xpos -= 13;
+							info = 128;
+						}
+						else if (tile == 8) {
+							ypos += 5;
+						}
+					}
+					if (assemblyNum == 0x3F) { //mmx3
+						if ((tile != 0 && tile != 6 && tile != 8)) continue;
+						if (tile == 8) {
+							tile8two++;
+							xpos += 15;							
+							ypos += 10;
+							info = 32;
+							if (tile8two > 1) {
+								x -= 40;
+								info = 96;
+							}
+						}
+						else if (tile == 6) {
+							tile6++;
+							xpos += 34;
+							ypos += 12;
+							if (tile6 <= 1) continue;							
+						}
+						else if (tile == 0) {
+							tile0++;
+							xpos -= 1;
+							ypos -= 7;
+							info = 32;
+							if (tile0 > 1) {
+								x += 40;
+								info = 96;
+							}
+						}
 					}
 				}
 			}
@@ -622,16 +757,16 @@ void RenderED::RenderObject(HDC hDC, int x, int y, unsigned gfxNum, unsigned pal
 					(assemblyNum == 0x68 || assemblyNum == 0x79 || assemblyNum == 0xae) ? 0x40 :
 					0x0;
 				tile &= 0xFF;
-				if (gfxNum = 0x13) //for the titlescreen graphics 4bpp composite
+				if (gfxNum == 0x13) //for the titlescreen graphics 4bpp composite
 					tile -= 0x0;
 			}
 
 			bool largeSprite = (info & 0x20) ? true : false;
 
-			unsigned h = (info >> 6) & 0x1;
-			unsigned v = (info >> 7) & 0x1;
+			unsigned h = (info >> 6) & 0x1; //mirror
+			unsigned v = (info >> 7) & 0x1; //flip			
 
-			for (unsigned j = 0; j < (largeSprite ? (unsigned)4 : (unsigned)1); ++j) {
+			for (unsigned j = 0; j < (largeSprite ? (unsigned)4 : (unsigned)1); ++j) { //j < (largeSprite ? (unsigned)4 : (unsigned)1) xyz.less_than(j, largeSprite, 4, 1); xyz.increase(j)
 				int xposOffset = (j % 2) * 8;
 				int yposOffset = (j / 2) * 8;
 				unsigned tileOffset = (largeSprite) ? (j ^ (h ? 0x1 : 0x00) ^ (v ? 0x2 : 0x00)) : j;

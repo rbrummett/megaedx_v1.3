@@ -36,6 +36,16 @@ struct FrameState {
 	uint32_t *buffer = nullptr;
 };
 
+struct s1 {
+	SpinBox mapAlloc[4];
+	int blockNum = 0;
+	unsigned oldBlock;
+	WORD oldMap;
+
+	void saveBlock(WORD mapSave, int dBlockSelected, int blockParam);
+	void undoBlock(HWND newWnd);
+};
+
 enum DrawThreadMessage {
 	FIRST = WM_APP + 5120,
 	DRAW = FIRST,
@@ -91,6 +101,10 @@ void CreateBitmapCache();
 void RenderImage(HDC hdc, int x, int y, WORD image[], WORD param);
 void RenderImageZoom(HDC hdc, int x, int y, WORD image[], int size);
 bool OpenFileDialogCore(HWND hWnd, CSTRING filter, MegaEDCore *romcore);
+
+std::string getEventInfoText(int elemNum);
+int checkEventInfo(int spriteNum);
+void changeEventInfoText();
 
 extern MMXCore nmmx;
 

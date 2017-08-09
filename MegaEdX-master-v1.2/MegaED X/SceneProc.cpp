@@ -30,6 +30,7 @@ static WORD dSceneBlockSelected = 0;
 static WORD dSceneBlockSave = 0;
 static WORD dSceneBlockOverMouse = 0;
 static WORD dSceneBlockTextWrite = 0;
+static BYTE oldTemp;
 
 // Drawing vars
 static HDC hSceneDC, hSceneBack, hSceneBlockDC, hSceneBlockBack, hSceneBlockSelected;
@@ -42,6 +43,12 @@ static RECT blockSelectRect = {0, 0, 32, 32};
 
 extern RECT rMapEdit;
 extern RECT rectMapTileFocus[];
+
+/*static void Undo(HWND hWnd) {
+	MessageBox(hWnd, "control key pressed", "Error", MB_ICONERROR);
+	*(LPWORD)(nmmx.rom + nmmx.pScenes + sceneScroll.GetPos() * 0x80 + oldTemp * 2) = dSceneBlockSave;
+	InvalidateRect(hWnd, NULL, false);
+}*/
 
 BOOL CALLBACK SceneProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -63,6 +70,16 @@ BOOL CALLBACK SceneProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	}
+	/*case WM_KEYDOWN:
+	{
+		//cannot create breakpoints WM_KEYDOWN is undefined
+		//callback is bool not lresult
+		if (wParam == VK_SHIFT) {
+			MessageBox(hWnd, "d key pressed", "Error", MB_ICONERROR);
+			break;
+		}
+	}  case wm_keydown ends here */
+	
 	case WM_VSCROLL:
 		if (sceneScroll.IsIDEqual((long)lParam))
 		{
@@ -112,6 +129,7 @@ BOOL CALLBACK SceneProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			unsigned tempBlockSave = *(LPWORD)(nmmx.rom + nmmx.pScenes + sceneScroll.GetPos() * 0x80 + tempSelected * 2);
 			if (tempBlockSave != dSceneBlockSelected) {
 				dSceneBlockSave = tempBlockSave;
+				oldTemp = tempSelected;
 			}
 			*(LPWORD)(nmmx.rom + nmmx.pScenes + sceneScroll.GetPos() * 0x80 + tempSelected * 2) = dSceneBlockSelected;
 

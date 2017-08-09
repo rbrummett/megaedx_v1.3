@@ -19,8 +19,8 @@ void SpinBox::Create(HWND hWnd, WORD id, const int x, const int y, const int wid
 {
 	hBox = CreateWindowEx(WS_EX_CLIENTEDGE /*| WS_EX_NOPARENTNOTIFY*/, "Edit", "0",WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_UPPERCASE
 		, x, y, width, 20, hWnd, (HMENU)(id | 0x8000), hInst, NULL);
-	hCtrl = CreateUpDownControl(WS_CHILD | WS_VISIBLE | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_WRAP
-		, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hWnd, id, hInst, hBox, min, max, min);
+	hCtrl = CreateUpDownControl(WS_CHILD | WS_VISIBLE | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_WRAP 
+		, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hWnd, id, hInst, hBox, max, min, min); //original values: min,max,min
 	if (hCtrl == NULL)
 		ErrorBox(hWnd, "Unable to create SpinBox", GetLastError());
 
@@ -76,13 +76,14 @@ void SpinBox::Work(WPARAM wParam)
 	SendMessage(hBox, WM_GETTEXT, 8, (LPARAM)text);
 	if (text[0] != 0)
 		sscanf_s(text, "%X", &value);
-	switch(LOWORD(wParam))
+	switch (LOWORD(wParam))
 	{
 	case SB_THUMBPOSITION:
 	case SB_THUMBTRACK:
 		value = HIWORD(wParam);
 		thumb = true;
 	}
+
 	SetPos(value, thumb);
 }
 long SpinBox::GetID()

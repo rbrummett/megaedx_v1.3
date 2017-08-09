@@ -55,8 +55,8 @@ BOOL CALLBACK TitleScreenProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 			
 		}*/
 		unsigned gfxNum = 19;
-		unsigned palNum = 1; //860000 + 8C0000 bitwise or snes2pc very complicated
-		render.RenderObject(hBackDC, 0, 0, gfxNum, palNum, -1);
+		unsigned palNum = 1; //do i need to use more than one palette?
+		render.RenderObject(hBackDC, 0, 0, gfxNum, palNum, -1); //use assemblyNum instead of -1
 		/* nmmx.raw2tile4bpp(src,dst); might be better off using this*/
 		StretchBlt(hBackDC, 0, 0, 512, 512, hBackDC, 0, 0, 256, 256, SRCCOPY);
 

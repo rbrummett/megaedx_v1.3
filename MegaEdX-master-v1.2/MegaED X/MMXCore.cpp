@@ -70,7 +70,6 @@ static bool TileSort(const sTileInfo &a, const sTileInfo &b) {
 	return a.value < b.value;
 }
 
-
 BYTE MMXCore::CheckROM()
 {
 	LoadHeader();
@@ -1317,7 +1316,7 @@ void MMXCore::LoadGFXs()
 	pGfxObj = p_gfxobj[type] ? snes2pc(p_gfxobj[type]) : 0x0;
 	pGfxPal = p_gfxobj[type] ? snes2pc(p_gfxpal[type]) : 0x0;
 	pSpriteAssembly = p_spriteAssembly[type] ? snes2pc(p_spriteAssembly[type]) : 0x0;
-	pSpriteOffset[0] = p_objOffset[type] ? snes2pc(p_objOffset[type]) : 0x0;
+	pSpriteOffset[0] = p_objOffset[type] ? snes2pc(p_objOffset[type]) : 0x0; //nmmx.type not event type
 	pSpriteOffset[1] = p_objOffset[type] ? snes2pc(p_objOffset[type]) : 0x0;
 	pSpriteOffset[3] = p_spriteOffset[type] ? snes2pc(p_spriteOffset[type]) : 0x0;
 

@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define TILE(index, palette, up, mirror, flip) ((index) | ((palette)<<10) | ((up)<<13) | ((mirror)<<14) | ((flip)<<15))
 class RenderED
-{
+{	
 private:
 	MMXCore *pmmx;
 	HWND hWnd;
@@ -37,8 +37,7 @@ private:
 	// FONT
 	HDC dcFont;
 	HBITMAP hFont;
-
-	unsigned currentBuffer = 0;
+	unsigned currentBuffer = 0;	
 public:
 	~RenderED(); // Automatically call Destroy()
 	void Init(MMXCore*); // Initialize Rendering core
@@ -67,5 +66,4 @@ public:
 	void PrintBig(HDC, int x, int y, LPCSTR text, char color);
 	void PrintCopyright(HDC, int x, int y, char color);
 };
-
 #endif

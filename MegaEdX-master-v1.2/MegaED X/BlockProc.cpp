@@ -14,6 +14,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "MegaED X.h"
+#include <time.h>
 
 // Control variables:
 static ScrollBar blockScroll;
@@ -55,6 +56,12 @@ static void UpdateBlockWrite(HWND hWnd, int blockNum = -1)
 	else {
 		*(LPWORD)(nmmx.rom + nmmx.pBlocks + (dBlockSelected << 3) + 2 * blockNum) = mapsAlloc[blockNum].GetPos();
 	}
+}
+static void Undo() {
+	//MessageBox::Show("control key pressed");
+	mapsAlloc[blockSelection].SetPos(dMapSave);
+	UpdateBlockWrite(hWID[0], blockSelection);
+	RefreshLevel(true);
 }
 BOOL CALLBACK BlockProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -121,13 +128,23 @@ BOOL CALLBACK BlockProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		}
 		else
 		{
-			for(int i=0; i<4; i++)
+			for (int i = 0; i < 4; i++)
 				if (mapsAlloc[i].IsIDEqual((long)lParam))
 				{
 					mapsAlloc[i].Work(wParam);
 				}
 		}
 		break;
+	case WM_KEYDOWN:
+	{
+		//if (GetKeyState(VK_CONTROL) != 1)
+		if (wParam == 'A')  // 'A' key is pressed. for debugging
+		{
+			//case VK_CONTROL: {			
+			Undo();
+			InvalidateRect(hWID[0], NULL, true);
+		}
+	}
 	case WM_LBUTTONDOWN: {
 		if (PtInRect(&rectBlock, p)) {
 			WORD dMapTemp = mapsAlloc[blockSelection].GetPos();
@@ -136,8 +153,17 @@ BOOL CALLBACK BlockProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 
 			mapsAlloc[blockSelection].SetPos(dMapSelected);
+			//UpdateBlockWrite(hWID[0], blockSelection);
 			UpdateBlockWrite(hWnd, blockSelection);
 			RefreshLevel(true);
+			/*UpdateWindow(hWID[0]);
+			UpdateWindow(hWID[4]);
+			//s1 Undo;
+			//Undo.saveBlock(dMapTemp, dBlockSelected, blockSelection);
+			Sleep(3000);
+			mapsAlloc[blockSelection].SetPos(dMapSave);
+			UpdateBlockWrite(hWID[0], blockSelection);
+			RefreshLevel(true);*/
 			//RepaintAll();
 		}
 		break;

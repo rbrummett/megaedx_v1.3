@@ -17,3 +17,5 @@ B:     Background viewer
 C:     Checkpoint viewer
 
 E:     Collision viewer
+
+Esc:	End Emulation
