@@ -4,6 +4,12 @@ How to use
 -----------
 MMXE works best as a level editor, but you can also add/remove enemy sprites and items, change the checkpoint locations, edit the background, scenes, and layout of a level.
 
+Errors during execution
+-----------------------
+It has been reported that this program doesn't work when VS 2017 is installed. When downgrading to VS 2015 these problems are resolved. This issue is currently being reviewed.
+You may need following files to get program to work in Visual Studio after 2015
+https://www.microsoft.com/en-US/download/details.aspx?id=48145
+
 Keyboard Shortcuts
 ------------------
 Change Level (page-up/page-down)
@@ -13,6 +19,7 @@ Tile (a/s)
 Palette (z/x)
 End Emulation (esc)
 Toggle Sprites (t)
+Toggle Background (b)
 
 Palette Editor
 ---------------
@@ -40,6 +47,8 @@ This window displays even larger blocks of graphics, including those not viewabl
 
 So from small to large we have:
 Tile -> Map -> Block -> Scene -> Layout
+
+One important thing to note about the map,block,scene, and layout editor is that it saves the previous object changed in the right box (in the center), so if you made a mistake you can copy and paste over the previous map/block/scene/layout.
 
 Event Editor 
 --------------

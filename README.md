@@ -1,4 +1,4 @@
-# megaedx_v1.2
+# megaedx
 # v1.3:
 -Graphics for items (subtanks, heart tanks, weapon tank, etc.) now display in editor for MMX3 like the other games.  
 -Editor and Emulator menu items are no longer grayed out after opening a file  
