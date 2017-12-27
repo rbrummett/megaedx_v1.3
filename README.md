@@ -1,10 +1,10 @@
 # megaedx_v1.2
 # v1.3:
--Graphics for items (subtanks, heart tanks, weapon tank, etc.) now display in editor for MMX3 like the other games.
--Editor and Emulator menu items are no longer grayed out after opening a file
--Got the subtank graphic to display properly (before it was missing bottom half)
--Got the ride armor module graphic to display properly for MMX3 (there's 3 graphics on specific stages that unlock specific ride armor)
--When pressing arrow keys in dialog boxes it now changes value accordingly. (before it did the inverse, if you pressed up the value would go down and pressing down vice versa)
+Graphics for items (subtanks, heart tanks, weapon tank, etc.) now display in editor for MMX3 like the other games.
+Editor and Emulator menu items are no longer grayed out after opening a file
+Got the subtank graphic to display properly (before it was missing bottom half)
+Got the ride armor module graphic to display properly for MMX3 (there's 3 graphics on specific stages that unlock specific ride armor)
+When pressing arrow keys in dialog boxes it now changes value accordingly. (before it did the inverse, if you pressed up the value would go down and pressing down vice versa)
 
 # v1.2:
 -Fixed layout in Overdrive Ostrich
