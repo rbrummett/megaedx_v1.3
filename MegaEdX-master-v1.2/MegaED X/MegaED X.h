@@ -9,6 +9,8 @@
 #include "RenderED.h"
 #include "CompressionCore.h"
 ////////////////////////
+#include <string>
+#include <iostream>
 #include "Settings.h"
 #include "FileDialog.h"
 #include "WinCtrl.h"

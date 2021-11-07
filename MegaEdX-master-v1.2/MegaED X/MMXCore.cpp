@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <deque>
 #include <map>
 #include <tuple>
+#include <algorithm>
 
 const char MMXCore::expandedROMString[] = "EXPANDED ROM "; // 13 characters + termination
 const WORD MMXCore::expandedROMVersion = 4;

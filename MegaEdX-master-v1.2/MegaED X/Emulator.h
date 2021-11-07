@@ -23,6 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <mmreg.h>
 #include <dsound.h>
 #include <atomic>
+#include <string>
+#include <iostream>
 
 static DWORD WINAPI ThreadProc(LPVOID param);
 
