@@ -1,0 +1,42 @@
+**other than known issues in readme.txt**
+* 
+* Megaman X1 crashes during rom expansion (sometimes)
+* A program like SnesStuff is better for rom expansion
+* Rockman & Forte crashes during rom expansion
+* Save States cause crash
+* Load States also cause crash 
+* 
+* From github:
+* moving heart tank locations causes all heart tanks in game to disappear on X3
+* (possibly other X games also)
+* (confirmed in rom hack, but hard to reproduce in fresh edit of a stage)
+* easy levels to test/grab heart tanks: Toxic Seahorse
+* tunnel rhino, blizzard buffalo, gravity beetle (with password)
+* 
+* something about mmx3 doppler stage 2 where if you edit the level it's only 
+* visible if you defeat vile??
+* i.e. changes won't show if boss is vile instead of Volt Kureigil (vile breaks
+* the glass and damages stage if still alive)
+* editor loads graphics on doppler stage 2 from Vile Defeated. Does not load 
+* graphics for Vile Alive (ie broken glass, etc.)
+* [defeating Vile before Doppler Stage 2 is optional]
+* 
+* Similar issues with Flame Mammoth stage in MMX1- it shows fire graphics not ice,
+* but in the next scene when you scroll you can see the ice graphics
+* 
+* also editing one level causes another level's stage to discard all changes and
+* reset to default?
+* You have to save all changes to each stage before switching stages using Page Up
+* or Page Down because changes are stored in RAM (temporary memory)
+* [I'm thinking of prompting an alert if the program notices changes to the game but
+* unsaved before switching stages]
+* 
+*
+
+//Capcom
+
+From RHDN, @crisz reyes
+In MMX-Zero Text Fix, double-boss in some areas (storm eagle stage, sigma stage) [may be hard-coded from hack. not a bug]
+Sting Chameleon causes minor graphical issues
+subtanks only fill half the bar (may be related to v1.0 and v1.1)
+heart containers disappear when saving [already noted]

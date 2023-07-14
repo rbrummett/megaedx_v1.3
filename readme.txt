@@ -7,7 +7,7 @@ MMXE works best as a level editor, but you can also add/remove enemy sprites and
 Errors during execution
 -----------------------
 It has been reported that this program doesn't work when VS 2017 is installed. When downgrading to VS 2015 these problems are resolved. This issue is currently being reviewed.
-You may need following files to get program to work in Visual Studio after 2015
+You may need following files to get program to work in Visual Studio after 2015. (This is common for many VS-built programs that need SDK/run-time library)
 https://www.microsoft.com/en-US/download/details.aspx?id=48145
 
 Keyboard Shortcuts
@@ -101,8 +101,10 @@ Known Issues
 Some reported issues with Rom Expansion.
 Undo function and tilescreen editor are in progress
 Enemy sprites don't load for Rockman&Forte
-MMX3 item graphics don't load
-I disabled Compress Tiles function in Bubble Crab. Saving caused issues with the font. Similar issue with Blizzard Buffalo in MMX3 (saving damaged level 6).
+MMX2 - Overdrive Ostrich can only be saved once correctly. After that the layout gets messed up (unless you use rom expansion)
+MMX3 - some people complained that once they moved heart tank locations (in their hack) that all heart tanks disappeared, but I was not able to reproduce this bug in a fresh rom edit
+MMX3 shows Doppler Stage 2 under Vile Defeated (bit flag). May not be possible to view this stage (in editor) with changes for Vile Alive without hacking the ROM.
+I disabled Compress Tiles function in Bubble Crab (mmx2). Saving caused issues with the font. Similar issue with Blizzard Buffalo (mmx3) . Saving damaged level 6. This may cause issues in other places in the game.
 
 Contributors
 ------------

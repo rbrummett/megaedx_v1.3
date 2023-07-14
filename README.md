@@ -1,4 +1,6 @@
 # megaedx
+(1.3 is an unstable beta version of this program. There are known bugs please see bugs.txt for details,
+if you do use this program it's recommended you save after each stage and create a patch so that you don't lose progress when editing)
 # v1.3:
 -Graphics for items (subtanks, heart tanks, weapon tank, etc.) now display in editor for MMX3 like the other games.  
 -Editor and Emulator menu items are no longer grayed out after opening a file  
