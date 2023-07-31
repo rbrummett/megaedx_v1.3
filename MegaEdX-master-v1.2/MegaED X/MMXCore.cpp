@@ -45,12 +45,12 @@ const long p_locks[4]  = {0x86ECD0, 0x82FAE4, 0x83F2CC, NULL };
 //const long p_properties[3] = {0x80F8F3, 0x80FB8E, 0x86E28E};
 const long p_properties[4] = { NULL, NULL, 0x86E28E, NULL };
 const long p_spriteAssembly[4] = { 0x8D8000, 0x8D8000, 0x8D8000, NULL };
-const long p_spriteOffset[4] = { 0x86A5E4, 0x86A34D, 0x86E28E, NULL };
+const long p_spriteOffset[4] = { 0x86A5E4, 0x86A34D, 0x86E28E, NULL }; //r&f edited
 const long p_objOffset[4] = { 0x86DE9B, 0x86A34D, NULL, NULL };
 
-// enemy
-const long p_gfxobj[4] = {0x86ACEE, 0xAAB2D4, 0x888623, NULL };
-const long p_gfxpal[4] = {0x86ACF1, 0xAAB2D7, 0x888626, NULL };
+// all graphics
+const long p_gfxobj[4] = {0x86ACEE, 0X2AB2D4, 0x888623, NULL }; //mmx2: 0xAAB2D4 fastrom, r&f edited
+const long p_gfxpal[4] = {0x86ACF1, 0X2AB2D7, 0x888626, NULL }; 
 // TODO: sprite
 // TODO: misc object
 
@@ -1589,8 +1589,6 @@ void MMXCore::LoadEvents() {
 				pevent += 2;
 				event.eventId = *pevent++;
 				event.eventSubId = *pevent++;
-				//temp fix for mmx1/mmx2 to show heart tank graphics
-				if (event.type == 0x0 && event.eventId == 0xB) event.eventSubId = 0x4;
 				event.xpos = *(LPWORD)pevent;
 				pevent += 2;
 				event.eventFlag = event.xpos >> 13;
@@ -1936,7 +1934,7 @@ RECT MMXCore::GetBoundingBox(const EventInfo &event) {
 	}
 	else if (nmmx.pSpriteAssembly && nmmx.pSpriteOffset[event.type]
 		&& (event.type != 1 || (nmmx.type == 0 && event.eventId == 0x21))
-		&& (event.type != 0 || (event.eventId == 0xB && event.eventSubId == 0x4))
+		&& (event.type != 0 || event.eventId == 0xB)
 		&& !(nmmx.type == 1 && event.eventId == 0x2) // something near the arm doesn't have graphics
 		) {
 		// draw associated object sprite
@@ -1948,8 +1946,8 @@ RECT MMXCore::GetBoundingBox(const EventInfo &event) {
 			// X1 highway trucks/cars
 			assemblyNum = ((event.eventSubId & 0x30) >> 4) + 0x3A;
 		}
-		else if (event.type == 0 && event.eventId == 0xB && event.eventSubId == 0x4) {
-			// X1/X2 heart tank
+		else if (event.type == 0 && event.eventId == 0xB) {
+			//heart tank
 			assemblyNum = 0x38;
 		}
 

@@ -455,8 +455,8 @@ void RenderED::RenderEvent(HDC hDC, int x, int y, BYTE type, BYTE id, BYTE subId
 			gfxNum = *(nmmx.rom + nmmx.pSpriteOffset[type] + ((subId & 0x30) >> 4));
 			assemblyNum = ((subId & 0x30) >> 4) + 0x3A;
 		}
-		else if (type == 0 && id == 0xB && subId == 0x4) {
-			// X1 heart tank
+		else if (type == 0 && id == 0xB) {
+			//heart tank
 			gfxNum = 0x36;
 			assemblyNum = 0x38;
 		}
@@ -641,7 +641,7 @@ void RenderED::RenderObject(HDC hDC, int x, int y, unsigned gfxNum, unsigned pal
 			if (nmmx.type != 3) {
 				/*if (gfxNum == 0x8C) {
 					if (tile % 2 == 1) i++; //8 tiles total
-					//no fix: 0,1,2,3,4 
+					//no fix: 0,1,2,3,4
 				}*/
 				if (gfxNum == 0xA) {
 					if (assemblyNum == 0x11) {
@@ -654,11 +654,11 @@ void RenderED::RenderObject(HDC hDC, int x, int y, unsigned gfxNum, unsigned pal
 						if (switchitem) offset = 0x70;
 						//fail 0x75,0x65,0x60
 						tile -= offset;
-					}					
+					}
 				}
 				else if (gfxNum == 0x88) {
 					if (assemblyNum == 0x88) {
-						// capsule
+						// capsule: x2/x3
 						tile -= 0x40;
 					}
 				}
