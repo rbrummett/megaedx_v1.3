@@ -5,13 +5,7 @@
 * Rockman & Forte crashes during rom expansion
 * Save States cause crash
 * Load States also cause crash 
-* 
-* From github:
-* moving heart tank locations causes all heart tanks in game to disappear on X3
-* (possibly other X games also)
-* (confirmed in rom hack, but hard to reproduce in fresh edit of a stage)
-* easy levels to test/grab heart tanks: Toxic Seahorse
-* tunnel rhino, blizzard buffalo, gravity beetle (with password)
+* A few graphics don't load such as RT-55J, Utuboros, and Bit/Byte don't load correctly 
 * 
 * something about mmx3 doppler stage 2 where if you edit the level it's only 
 * visible if you defeat vile??
@@ -22,7 +16,9 @@
 * [defeating Vile before Doppler Stage 2 is optional]
 * 
 * Similar issues with Flame Mammoth stage in MMX1- it shows fire graphics not ice,
-* but in the next scene when you scroll you can see the ice graphics
+* but in the next scene when you scroll you can see the ice graphics. A few other
+* levels have this trigger event. Editor typically only loads the default version of a level,
+* but tiles are visible (and editable??)
 * 
 * also editing one level causes another level's stage to discard all changes and
 * reset to default?
@@ -39,4 +35,7 @@ From RHDN, @crisz reyes
 In MMX-Zero Text Fix, double-boss in some areas (storm eagle stage, sigma stage) [may be hard-coded from hack. not a bug]
 Sting Chameleon causes minor graphical issues
 subtanks only fill half the bar (may be related to v1.0 and v1.1)
-heart containers disappear when saving [already noted]
+
+//Previous fixes
+1. Overdrive Ostrich was loading the level and saving incorrectly. I created a work-around that allows 1 save (but reverts back to bad layout after next save). Best work-around is rom expansion.
+2. Heart tank was causing graphical issues. I didn't know the correct assembly number for this graphic so used a dummy value that worked (in the subid), but forgot to go back and delete it after finding correct value.
