@@ -7,7 +7,7 @@ MMXE works best as a level editor, but you can also add/remove enemy sprites and
 Errors during execution
 -----------------------
 It has been reported that this program doesn't work when VS 2017 is installed. When downgrading to VS 2015 these problems are resolved. This issue is currently being reviewed.
-You may need following files to get program to work in Visual Studio after 2015. (This is common for many VS-built programs that need SDK/run-time library)
+You may need following files to get program to work in Visual Studio after 2015. (This is common for many VS-built programs that need SDK/run-time library, you may also need SDK10 for the program to compile correctly) :
 https://www.microsoft.com/en-US/download/details.aspx?id=48145
 
 Keyboard Shortcuts
